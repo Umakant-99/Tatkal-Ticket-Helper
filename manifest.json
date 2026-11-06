@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Tatkal Autofill & Focus Helper",
+  "version": "2.1",
+  "description": "End-to-end IRCTC Tatkal & General automation.",
+  "permissions": ["storage", "activeTab", "tabs", "scripting"],
+  "host_permissions": [
+    "https://www.irctc.co.in/*",
+    "https://secure.paytmpayments.com/*",
+    "https://securegw.paytm.in/*",
+    "https://*.paytm.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.irctc.co.in/nget/*",
+        "https://secure.paytmpayments.com/*",
+        "https://securegw.paytm.in/*",
+        "https://*.paytm.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

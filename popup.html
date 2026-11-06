@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { width: 350px; font-family: Arial, sans-serif; padding: 12px; font-size: 13px; }
+    input, select, button { width: 100%; margin-bottom: 8px; padding: 6px; box-sizing: border-box; }
+    h4 { margin: 10px 0 4px; color: #213d77; border-bottom: 1px solid #ddd; padding-bottom: 2px; }
+    .row { display: flex; gap: 6px; }
+    .row > * { flex: 1; }
+    button { background: #213d77; color: white; border: none; cursor: pointer; font-weight: bold; padding: 9px; border-radius: 4px; }
+    button:hover { background: #162952; }
+    .preset-btn { background: #eef2f9; color: #213d77; font-size: 11px; padding: 6px 4px; font-weight: bold; border: 1px solid #c5d4eb; }
+    .preset-btn:hover { background: #d8e2f3; }
+    .preset-gen { background: #06d6a0; color: #003326; border: 1px solid #05b586; }
+    .preset-gen:hover { background: #05b586; color: white; }
+    .clear-btn { background: #d9534f; margin-top: 2px; padding: 6px; font-size: 11px; }
+    .clear-btn:hover { background: #c9302c; }
+    .psgn-card { border: 1px solid #d6deeb; border-radius: 6px; padding: 8px 8px 2px; margin-bottom: 8px; background: #fcfdff; }
+    .psgn-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: bold; color: #213d77; }
+    .psgn-remove { width: auto; margin: 0; padding: 3px 8px; font-size: 11px; background: #fdecea; color: #b3261e; border: 1px solid #f3c7c2; border-radius: 4px; }
+    .psgn-remove:hover { background: #f8d7d3; }
+    .psgn-remove[hidden] { display: none; }
+    #addPassengerBtn { background: #eef2f9; color: #213d77; border: 1px solid #c5d4eb; margin-bottom: 10px; }
+    #addPassengerBtn:hover { background: #d8e2f3; }
+    #addPassengerBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status { color: green; font-weight: bold; text-align: center; display: none; margin-top: 4px; }
+    #timerBox { background: #f8f9fa; padding: 6px; border-radius: 4px; border: 1px solid #e2e6ea; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <h4>0. Select Mode</h4>
+  <div class="row">
+    <button type="button" class="preset-btn preset-gen" id="setGenNow">⚡ General (Run Immediately)</button>
+  </div>
+  <div class="row">
+    <button type="button" class="preset-btn" id="setAC">Tatkal AC (10:00:01)</button>
+    <button type="button" class="preset-btn" id="setSL">Tatkal SL (11:00:01)</button>
+  </div>
+
+  <div id="timerBox">
+    <input type="text" id="targetTime" placeholder="Tatkal Trigger Time (10:00:01)" value="10:00:01" style="margin-bottom:4px;">
+    <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:12px;">
+      <input type="checkbox" id="enableTimer" style="width:auto; margin:0;">
+      Wait for Target Time (Unchecked = Run Immediately)
+    </label>
+  </div>
+
+  <h4>1. Login Credentials</h4>
+  <input type="text" id="username" placeholder="IRCTC Username" autocomplete="off">
+  <input type="password" id="password" placeholder="IRCTC Password" autocomplete="off">
+
+  <h4>2. Journey Details (train-search)</h4>
+  <div class="row">
+    <input type="text" id="fromStn" placeholder="From Code (e.g. SBC)">
+    <input type="text" id="toStn" placeholder="To Code (e.g. PNBE)">
+  </div>
+  <div class="row">
+    <input type="date" id="journeyDate" title="Journey date">
+    <input type="text" id="trainNo" placeholder="Train No (e.g. 12295)">
+  </div>
+  <div class="row">
+    <select id="coachClass">
+      <option value="3A">AC 3 Tier (3A)</option>
+      <option value="2A">AC 2 Tier (2A)</option>
+      <option value="SL">Sleeper (SL)</option>
+      <option value="CC">AC Chair Car (CC)</option>
+      <option value="3E">AC 3 Economy (3E)</option>
+      <option value="1A">AC First Class (1A)</option>
+      <option value="2S">Second Sitting (2S)</option>
+    </select>
+    <select id="quota">
+      <option value="GENERAL">GENERAL (Instant)</option>
+      <option value="TATKAL">TATKAL</option>
+      <option value="PREMIUM TATKAL">PREMIUM TATKAL</option>
+      <option value="LADIES">LADIES</option>
+      <option value="LOWER BERTH/SR.CITIZEN">SR. CITIZEN</option>
+    </select>
+  </div>
+
+  <h4>3. Passengers & Contact (psgninput)</h4>
+  <div id="passengerList"></div>
+  <button type="button" id="addPassengerBtn">+ Add Passenger</button>
+  <input type="text" id="mobileNo" placeholder="Contact Mobile Number (10 digits)">
+
+  <button id="saveBtn">Save & Start Immediately</button>
+  <button id="clearCredsBtn" class="clear-btn">Clear Saved Username & Password</button>
+  <div id="status" class="status">Running Now on IRCTC!</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
